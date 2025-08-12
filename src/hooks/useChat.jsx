@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
-const backendWsUrl = "wss://bcade4a55f5c.ngrok-free.app/ws/chat/";
-
+// const backendWsUrl = "wss://bcade4a55f5c.ngrok-free.app/ws/chat/";
+const backendWsUrl = "wss://5864bfe4efbb.ngrok-free.app/ws/chat/"
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {

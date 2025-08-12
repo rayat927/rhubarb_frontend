@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { useChat } from "../hooks/useChat";
+// import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
+
 
 export const UI = ({ hidden, ...props }) => {
   const input = useRef();
@@ -16,14 +18,22 @@ export const UI = ({ hidden, ...props }) => {
     return null;
   }
 
+ 
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
-        <div className="self-start backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
-          <h1 className="font-black text-xl">My Virtual GF</h1>
-          <p>I will always love you ❤️</p>
+        <div className="absolute top-0 left-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
+          <h1 className="font-black text-xl">Dashboard</h1>
+          <a href='https://www.englovoice.com/dashboard' className="pointer-events-auto"><span className="fw-bold">&larr;</span>  Go Back</a>
         </div>
-        <div className="w-full flex flex-col items-end justify-center gap-4">
+        
+        <div className="absolute top-0 right-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
+          <h1 className="font-black text-xl">My Virtual Friend</h1>
+          <p>I am from EngloVoice</p>
+        </div>
+
+        <div className="w-full flex flex-col  items-end justify-center h-full gap-4">
           <button
             onClick={() => setCameraZoomed(!cameraZoomed)}
             className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
@@ -60,7 +70,7 @@ export const UI = ({ hidden, ...props }) => {
               </svg>
             )}
           </button>
-          <button
+          {/* <button
             onClick={() => {
               const body = document.querySelector("body");
               if (body.classList.contains("greenScreen")) {
@@ -84,7 +94,7 @@ export const UI = ({ hidden, ...props }) => {
                 d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
               />
             </svg>
-          </button>
+          </button> */}
         </div>
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
           <input
