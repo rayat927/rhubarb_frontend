@@ -23,10 +23,10 @@ export const UI = ({ hidden, ...props }) => {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
-        <div className="absolute top-0 left-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
+        <a className="absolute top-0 left-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
           <h1 className="font-black text-xl">Dashboard</h1>
           <a href='https://www.englovoice.com/dashboard' className="pointer-events-auto"><span className="fw-bold">&larr;</span>  Go Back</a>
-        </div>
+        </a>
         
         <div className="absolute top-0 right-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
           <h1 className="font-black text-xl">My Virtual Friend</h1>
