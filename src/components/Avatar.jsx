@@ -116,7 +116,7 @@ export function Avatar(props) {
   const [lipsync, setLipsync] = useState();
 
   useEffect(() => {
-    console.log(message);
+    // console.log(message);
     if (!message) {
       setAnimation("Idle");
       return;
@@ -263,7 +263,7 @@ export function Avatar(props) {
           emotionValues[key] = value;
         }
       });
-      console.log(JSON.stringify(emotionValues, null, 2));
+      // console.log(JSON.stringify(emotionValues, null, 2));
     }),
   });
 
@@ -291,7 +291,7 @@ export function Avatar(props) {
   );
 
 useEffect(() => {
-  console.log(scene); // See if HeadTop_End_end exists
+  // console.log(scene); // See if HeadTop_End_end exists
 }, [scene]);
   useEffect(() => {
     let blinkTimeout;

@@ -42,7 +42,7 @@ function App() {
 
         if (resp.ok) {
           const data = await resp.json();
-          console.log("Authenticated user:", data);
+          // console.log("Authenticated user:", data);
           localStorage.setItem("isAuthenticated", "true");
         } else {
           // Not logged in -> redirect to login with return url
