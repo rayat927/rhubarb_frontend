@@ -46,6 +46,7 @@ export const ChatProvider = ({ children }) => {
     socketRef.current = socket;
 
     socket.onopen = () => {
+      socketRef.current.send(JSON.stringify({ type: "user_data", message: {username: "arnab"} }));
       console.log("✅ WebSocket connected");
     };
 
