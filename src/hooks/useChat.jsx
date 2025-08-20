@@ -13,59 +13,70 @@ export const ChatProvider = ({ children }) => {
   const socketRef = useRef(null);
 
   // Send a message through WebSocket
-const chat = (text) => {
+  const chat = (text) => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      console.log("Sending message to server:", text);
       setLoading(true);
       socketRef.current.send(JSON.stringify({ type: "input", message: text }));
+    } else {
+      console.warn("WebSocket not ready. Could not send:", text);
     }
   };
 
   const onMessagePlayed = () => {
+    console.log("Message played & removed:", messages[0]);
     setMessages((prev) => prev.slice(1));
   };
 
   // Handle first message display
   useEffect(() => {
     if (messages.length > 0) {
+      console.log("Setting current message:", messages[0]);
       setMessage(messages[0]);
     } else {
+      console.log("No messages available, setting message = null");
       setMessage(null);
     }
   }, [messages]);
 
   // WebSocket connection setup
   useEffect(() => {
+    console.log("Connecting to WebSocket:", backendWsUrl);
     const socket = new WebSocket(backendWsUrl);
     socketRef.current = socket;
 
     socket.onopen = () => {
-      console.log("WebSocket connected");
+      console.log("✅ WebSocket connected");
     };
 
     socket.onmessage = (event) => {
+      console.log("📩 Raw message received from server:", event.data);
       try {
         const data = JSON.parse(event.data);
         if (data.messages) {
+          console.log("Adding multiple messages:", data.messages);
           setMessages((prev) => [...prev, ...data.messages]);
         } else if (data.message) {
+          console.log("Adding single message:", data.message);
           setMessages((prev) => [...prev, data.message]);
         }
       } catch (err) {
-        console.error("Invalid JSON from WebSocket:", err);
+        console.error("❌ Invalid JSON from WebSocket:", err);
       }
       setLoading(false);
     };
 
     socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
+      console.error("⚠️ WebSocket error:", error);
     };
 
     socket.onclose = () => {
-      console.log("WebSocket closed");
+      console.log("❌ WebSocket closed");
     };
 
     return () => {
-      // socket.close();
+      console.log("Cleaning up WebSocket connection...");
+      // socket.close(); // Uncomment if you want to close on unmount
     };
   }, []);
 
