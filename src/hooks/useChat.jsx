@@ -13,10 +13,10 @@ export const ChatProvider = ({ children }) => {
   const socketRef = useRef(null);
 
   // Send a message through WebSocket
-  const chat = (text) => {
+const chat = (text) => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       setLoading(true);
-      socketRef.current.send(JSON.stringify({ message: text }));
+      socketRef.current.send(JSON.stringify({ type: "input", message: text }));
     }
   };
 
