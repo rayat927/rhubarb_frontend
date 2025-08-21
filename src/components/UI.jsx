@@ -22,6 +22,9 @@ export const UI = ({ hidden, ...props }) => {
 
   if (hidden) return null;
 
+  // ✅ waiting = before first response finishes
+  const waiting = !connected || loading || message;
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
@@ -97,18 +100,16 @@ export const UI = ({ hidden, ...props }) => {
                 sendMessage();
               }
             }}
-            disabled={!connected || loading || message} // ⛔ block typing until ready
+            disabled={waiting} // ⛔ disabled until first response done
           />
           <button
-            disabled={!connected || loading || message} // ⛔ block sending until ready
+            disabled={waiting} // ⛔ disabled until first response done
             onClick={sendMessage}
             className={`bg-pink-500 hover:bg-pink-600 text-white p-2 px-6 font-semibold uppercase rounded-md text-sm ${
-              !connected || loading || message
-                ? "cursor-not-allowed opacity-30"
-                : ""
+              waiting ? "cursor-not-allowed opacity-30" : ""
             }`}
           >
-            {!connected || loading || message ? "Waiting..." : "Send"}
+            {waiting ? "Waiting..." : "Send"}
           </button>
         </div>
       </div>
