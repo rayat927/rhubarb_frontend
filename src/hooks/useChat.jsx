@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
-// const backendWsUrl = "wss://bcade4a55f5c.ngrok-free.app/ws/chat/";
-const backendWsUrl = "wss://www.englovoice.com/ws/chat/"
+const backendWsUrl = "wss://www.englovoice.com/ws/chat/";
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
@@ -9,75 +8,67 @@ export const ChatProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cameraZoomed, setCameraZoomed] = useState(true);
+  const [connected, setConnected] = useState(false); // ✅ track WebSocket state
 
   const socketRef = useRef(null);
 
   // Send a message through WebSocket
   const chat = (text) => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-      // console.log("Sending message to server:", text);
       setLoading(true);
       socketRef.current.send(JSON.stringify({ type: "input", message: text }));
-    } else {
-      // console.warn("WebSocket not ready. Could not send:", text);
     }
   };
 
   const onMessagePlayed = () => {
-    // console.log("Message played & removed:", messages[0]);
     setMessages((prev) => prev.slice(1));
   };
 
   // Handle first message display
   useEffect(() => {
     if (messages.length > 0) {
-      // console.log("Setting current message:", messages[0]);
       setMessage(messages[0]);
     } else {
-      // console.log("No messages available, setting message = null");
       setMessage(null);
     }
   }, [messages]);
 
   // WebSocket connection setup
   useEffect(() => {
-    // console.log("Connecting to WebSocket:", backendWsUrl);
     const socket = new WebSocket(backendWsUrl);
     socketRef.current = socket;
 
     socket.onopen = () => {
-      socketRef.current.send(JSON.stringify({ type: "user_data", message: {username: "arnab"} }));
-      // console.log("✅ WebSocket connected");
+      setConnected(true); // ✅ mark connected
+      socketRef.current.send(
+        JSON.stringify({ type: "user_data", message: { username: "arnab" } })
+      );
     };
 
     socket.onmessage = (event) => {
-      // console.log("📩 Raw message received from server:", event.data);
       try {
         const data = JSON.parse(event.data);
         if (data.messages) {
-          // console.log("Adding multiple messages:", data.messages);
           setMessages((prev) => [...prev, ...data.messages]);
         } else if (data.message) {
-          // console.log("Adding single message:", data.message);
           setMessages((prev) => [...prev, data.message]);
         }
       } catch (err) {
-        // console.error("❌ Invalid JSON from WebSocket:", err);
+        console.error("Invalid JSON from WebSocket:", err);
       }
       setLoading(false);
     };
 
-    socket.onerror = (error) => {
-      // console.error("⚠️ WebSocket error:", error);
+    socket.onerror = () => {
+      setConnected(false);
     };
 
     socket.onclose = () => {
-      // console.log("❌ WebSocket closed");
+      setConnected(false); // 🔴 mark disconnected
     };
 
     return () => {
-      // console.log("Cleaning up WebSocket connection...");
-      // socket.close(); // Uncomment if you want to close on unmount
+      socket.close();
     };
   }, []);
 
@@ -90,6 +81,7 @@ export const ChatProvider = ({ children }) => {
         loading,
         cameraZoomed,
         setCameraZoomed,
+        connected, // ✅ provided in context
       }}
     >
       {children}
