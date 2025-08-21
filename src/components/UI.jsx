@@ -14,7 +14,7 @@ export const UI = ({ hidden, ...props }) => {
 
   const sendMessage = () => {
     const text = input.current.value;
-    if (!loading && !message && connected) {
+    if (connected && !loading && !message && text.trim() !== "") {
       chat(text);
       input.current.value = "";
     }
@@ -26,7 +26,7 @@ export const UI = ({ hidden, ...props }) => {
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
         
-        {/* Dashboard + Virtual Friend Header (side by side, smaller style) */}
+        {/* Dashboard + Virtual Friend Header */}
         <div className="absolute top-0 left-0 right-0 flex flex-row justify-between gap-2 m-2 text-xs">
           {/* Dashboard Box */}
           <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-2 rounded-md w-auto">
@@ -97,22 +97,18 @@ export const UI = ({ hidden, ...props }) => {
                 sendMessage();
               }
             }}
-            disabled={!connected || message || loading} // 🔒 disabled until response ends
+            disabled={!connected || loading || message} // ⛔ block typing until ready
           />
           <button
-            disabled={!connected || message || loading}
+            disabled={!connected || loading || message} // ⛔ block sending until ready
             onClick={sendMessage}
             className={`bg-pink-500 hover:bg-pink-600 text-white p-2 px-6 font-semibold uppercase rounded-md text-sm ${
-              !connected || message || loading
+              !connected || loading || message
                 ? "cursor-not-allowed opacity-30"
                 : ""
             }`}
           >
-            {!connected
-              ? "Connecting..."
-              : message || loading
-              ? "Waiting..."
-              : "Send"}
+            {!connected || loading || message ? "Waiting..." : "Send"}
           </button>
         </div>
       </div>
