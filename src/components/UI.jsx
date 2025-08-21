@@ -9,7 +9,7 @@ export const UI = ({ hidden, ...props }) => {
     cameraZoomed,
     setCameraZoomed,
     message,
-    connected, // ✅ from ChatProvider
+    connected,
   } = useChat();
 
   const sendMessage = () => {
@@ -20,30 +20,29 @@ export const UI = ({ hidden, ...props }) => {
     }
   };
 
-  if (hidden) {
-    return null;
-  }
+  if (hidden) return null;
 
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
-        {/* Responsive Header (Dashboard + Virtual Friend) */}
-        <div className="absolute top-0 left-0 right-0 flex flex-col sm:flex-row justify-between gap-4 m-4">
+        
+        {/* Dashboard + Virtual Friend Header (side by side, smaller style) */}
+        <div className="absolute top-0 left-0 right-0 flex flex-row justify-between gap-2 m-2 text-xs">
           {/* Dashboard Box */}
-          <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg sm:w-auto w-full">
-            <h1 className="font-black text-xl">Dashboard</h1>
+          <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-2 rounded-md w-auto">
+            <h1 className="font-bold text-sm">Dashboard</h1>
             <a
               href="https://www.englovoice.com/dashboard"
-              className="pointer-events-auto flex items-center gap-2 mt-2"
+              className="pointer-events-auto flex items-center gap-1 mt-1 text-xs"
             >
               <span className="fw-bold">&larr;</span> Go Back
             </a>
           </div>
 
           {/* Friend Box */}
-          <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg sm:w-auto w-full text-center sm:text-right">
-            <h1 className="font-black text-xl">My Virtual Friend</h1>
-            <p>I am from EngloVoice</p>
+          <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-2 rounded-md w-auto text-right">
+            <h1 className="font-bold text-sm">My Virtual Friend</h1>
+            <p className="text-xs">I am from EngloVoice</p>
           </div>
         </div>
 
@@ -51,7 +50,7 @@ export const UI = ({ hidden, ...props }) => {
         <div className="w-full flex flex-col items-end justify-center h-full gap-4">
           <button
             onClick={() => setCameraZoomed(!cameraZoomed)}
-            className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
+            className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-2 rounded-md"
           >
             {cameraZoomed ? (
               <svg
@@ -60,7 +59,7 @@ export const UI = ({ hidden, ...props }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6"
+                className="w-4 h-4"
               >
                 <path
                   strokeLinecap="round"
@@ -75,7 +74,7 @@ export const UI = ({ hidden, ...props }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6"
+                className="w-4 h-4"
               >
                 <path
                   strokeLinecap="round"
@@ -87,10 +86,10 @@ export const UI = ({ hidden, ...props }) => {
           </button>
         </div>
 
-        {/* Input & Send Button */}
+        {/* Input + Send */}
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
           <input
-            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
+            className="w-full placeholder:text-gray-800 placeholder:italic p-2 rounded-md bg-opacity-50 bg-white backdrop-blur-md text-sm"
             placeholder="Type a message..."
             ref={input}
             onKeyDown={(e) => {
@@ -98,18 +97,22 @@ export const UI = ({ hidden, ...props }) => {
                 sendMessage();
               }
             }}
-            disabled={!connected} // prevent typing before connection
+            disabled={!connected || message || loading} // 🔒 disabled until response ends
           />
           <button
-            disabled={!connected || loading || message}
+            disabled={!connected || message || loading}
             onClick={sendMessage}
-            className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md ${
-              !connected || loading || message
+            className={`bg-pink-500 hover:bg-pink-600 text-white p-2 px-6 font-semibold uppercase rounded-md text-sm ${
+              !connected || message || loading
                 ? "cursor-not-allowed opacity-30"
                 : ""
             }`}
           >
-            {!connected ? "Connecting..." : loading ? "Sending..." : "Send"}
+            {!connected
+              ? "Connecting..."
+              : message || loading
+              ? "Waiting..."
+              : "Send"}
           </button>
         </div>
       </div>
