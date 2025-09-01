@@ -18,12 +18,12 @@ export const UI = ({ hidden, ...props }) => {
     return null;
   }
 
- 
+
 
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
-        <a href='https://www.englovoice.com/dashboard' className="pointer-events-auto absolute top-0 left-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
+        {/* <a href='https://www.englovoice.com/dashboard' className="pointer-events-auto absolute md:w-1 md:h-1 top-0 left-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
           <h1 className="font-black text-xl">Dashboard</h1>
           <a href='https://www.englovoice.com/dashboard' className="pointer-events-auto"><span className="fw-bold">&larr;</span>  Go Back</a>
         </a>
@@ -31,6 +31,28 @@ export const UI = ({ hidden, ...props }) => {
         <div className="absolute top-0 right-0 m-4 backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
           <h1 className="font-black text-xl">My Virtual Friend</h1>
           <p>I am from EngloVoice</p>
+        </div> */}
+
+        <div className="absolute top-0 left-0 right-0 m-2">
+          <div className="flex  justify-between gap-2 sm:gap-3">
+            {/* Dashboard Box */}
+            <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-2 sm:p-3 md:p-4 rounded-md w-auto">
+              <h1 className="font-bold text-xs sm:text-sm md:text-base">Dashboard</h1>
+              <a
+                href="https://www.englovoice.com/dashboard"
+                className="pointer-events-auto flex items-center gap-1 mt-1 text-xs sm:text-sm"
+              >
+                <span className="fw-bold">&larr;</span> Go Back
+              </a>
+            </div>
+
+
+            {/* Virtual Friend Box */}
+            <div className="pointer-events-auto backdrop-blur-md bg-white bg-opacity-50 p-2 sm:p-3 md:p-4 rounded-md w-auto text-right">
+              <h1 className="font-bold text-xs sm:text-sm md:text-base">My Virtual Friend</h1>
+              <p className="text-[10px] sm:text-xs md:text-sm">I am from EngloVoice</p>
+            </div>
+          </div>
         </div>
 
         <div className="w-full flex flex-col  items-end justify-center h-full gap-4">
@@ -110,9 +132,8 @@ export const UI = ({ hidden, ...props }) => {
           <button
             disabled={loading || message}
             onClick={sendMessage}
-            className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md ${
-              loading || message ? "cursor-not-allowed opacity-30" : ""
-            }`}
+            className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md ${loading || message ? "cursor-not-allowed opacity-30" : ""
+              }`}
           >
             Send
           </button>
