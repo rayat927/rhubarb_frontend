@@ -60,13 +60,8 @@ function App() {
     (async () => {
       try {
 
-        const cached = localStorage.getItem("initialData");
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          setInitialData(parsed);
-          setShowNoPlanModal(isNoPlan(parsed?.plan));
-        }
-         const resp = await fetch("https://www.englovoice.com/api/initial-data", {
+       
+         const resp = await fetch("https://www.englovoice.com/initial_data", {
           credentials: "include",
         });
 
