@@ -24,6 +24,8 @@ function Scene() {
 
 function App() {
    const { progress } = useProgress();
+     const [initialData, setInitialData] = useState(null);
+
    const [authLoading, setAuthLoading] = useState(true);
    const [showNoPlanModal, setShowNoPlanModal] = useState(false);
 
