@@ -66,7 +66,7 @@ function App() {
           setInitialData(parsed);
           setShowNoPlanModal(isNoPlan(parsed?.plan));
         }
-         const resp = await fetch("https://www.englovoice.com/initial_data", {
+         const resp = await fetch("https://www.englovoice.com/api/initial-data", {
           credentials: "include",
         });
 
