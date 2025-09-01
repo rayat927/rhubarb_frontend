@@ -70,6 +70,9 @@ function App() {
           credentials: "include",
         });
 
+        console.log(resp);
+        
+
         if (!resp.ok) {
           window.location.href =
             "https://www.englovoice.com/login?next=" +
