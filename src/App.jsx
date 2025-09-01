@@ -118,10 +118,10 @@ function App() {
         />
       )}
       <Leva hidden />
-       {/* <PlanModal
+       <PlanModal
         open={showNoPlanModal}
         onClose={() => setShowNoPlanModal(false)}
-      /> */}
+      />
       <UI />
       {/* <Canvas shadows camera={{ position: [0, 0, 1], fov: 30 }}>
         <Experience />
